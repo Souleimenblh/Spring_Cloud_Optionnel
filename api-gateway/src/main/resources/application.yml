@@ -1,0 +1,25 @@
+server:
+  port: 8089
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    gateway:
+      routes:
+        - id: avion
+          uri: lb://AVION
+          predicates:
+            - Path=/avions/**
+
+        - id: user
+          uri: lb://USERS-MICROSERVICES
+          predicates:
+            - Path=/users/**
+      default-filters:
+        - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials
